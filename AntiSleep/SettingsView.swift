@@ -93,7 +93,7 @@ struct SettingsView: View {
     }
 
     private var appVersion: String {
-        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.3"
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.4"
         return "v\(v)"
     }
 
