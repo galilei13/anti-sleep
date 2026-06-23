@@ -47,14 +47,27 @@ final class WindowManager: NSObject, ObservableObject {
         }
         let window = NSWindow(
             contentRect: NSRect(origin: .zero, size: size),
-            styleMask: [.titled, .closable],
+            styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
         window.title = title
         window.isReleasedWhenClosed = false
+        // Borderless premium look: transparent window so the glass shows through.
+        window.titlebarAppearsTransparent = true
+        window.titleVisibility = .hidden
+        window.isMovableByWindowBackground = true
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+        window.standardWindowButton(.zoomButton)?.isHidden = true
         window.center()
-        window.contentView = NSHostingView(rootView: content)
+
+        let host = NSHostingView(rootView: ZStack {
+            GlassWindowBackground()
+            content
+        })
+        window.contentView = host
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         slot = window

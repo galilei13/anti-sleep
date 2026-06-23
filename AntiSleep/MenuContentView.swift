@@ -20,20 +20,22 @@ struct MenuContentView: View {
                 Spacer()
             }
 
-            Toggle("Anti-Sleep", isOn: binding)
-                .toggleStyle(.lightSwitch)
-                .labelsHidden()
+            VStack(spacing: 12) {
+                Toggle("Anti-Sleep", isOn: binding)
+                    .toggleStyle(.lightSwitch)
+                    .labelsHidden()
 
-            Text(sleep.isActive ? "Your Mac will stay awake." : "Your Mac can sleep normally.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .lineLimit(1)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(height: 20)
-                .animation(nil, value: sleep.isActive)
-
-            Divider()
+                Text(sleep.isActive ? "Your Mac will stay awake." : "Your Mac can sleep normally.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(height: 20)
+                    .animation(nil, value: sleep.isActive)
+            }
+            .frame(maxWidth: .infinity)
+            .glassCard()
 
             HStack {
                 Button {
@@ -51,7 +53,8 @@ struct MenuContentView: View {
             .buttonStyle(.borderless)
         }
         .padding(18)
-        .frame(width: 260, height: 230)
+        .frame(width: 260, height: 250)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: Glass.cardRadius, style: .continuous))
         .fixedSize()
     }
 }

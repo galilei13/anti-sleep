@@ -11,23 +11,22 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Settings")
                 .font(.title2.bold())
 
-            GroupBox("Status") {
+            card(title: "Status") {
                 row(label: "Anti-Sleep",
                     value: sleep.isActive ? "Active" : "Inactive",
                     color: sleep.isActive ? .green : .secondary)
             }
 
-            GroupBox("General") {
+            card(title: "General") {
                 Toggle("Launch at Login", isOn: launchBinding)
                     .toggleStyle(.switch)
-                    .padding(6)
             }
 
-            GroupBox("Permissions") {
+            card(title: "Permissions") {
                 VStack(alignment: .leading, spacing: 10) {
                     row(label: "Notifications",
                         value: permissions.notificationStatus.rawValue,
@@ -44,9 +43,9 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    .buttonStyle(.bordered)
                     .padding(.top, 4)
                 }
-                .padding(6)
             }
 
             Spacer()
@@ -64,6 +63,20 @@ struct SettingsView: View {
         }
     }
 
+    /// A titled glass section card.
+    private func card<Content: View>(title: String,
+                                     @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.caption.bold())
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .glassCard()
+    }
+
     private var statusColor: Color {
         switch permissions.notificationStatus {
         case .authorized: return .green
@@ -74,7 +87,7 @@ struct SettingsView: View {
     }
 
     private var appVersion: String {
-        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.1"
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2"
         return "v\(v)"
     }
 

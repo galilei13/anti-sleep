@@ -16,6 +16,8 @@ lives entirely in the status bar with a physical-light-switch toggle.
 - **First-launch onboarding** requesting notification permission.
 - **Settings window** showing permission status with a re-authorize button.
 - **Launch at Login** via `SMAppService`, toggleable from Settings and Onboarding.
+- **Liquid Glass UI** — translucent `.ultraThinMaterial` cards and borderless,
+  transparent windows for a premium, light/dark-adaptive look.
 
 ## Build & Run
 
