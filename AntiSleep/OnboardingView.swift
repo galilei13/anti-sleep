@@ -3,6 +3,11 @@ import SwiftUI
 /// One-time first-launch screen that explains the app and requests permissions.
 struct OnboardingView: View {
     @ObservedObject private var permissions = PermissionsManager.shared
+    @ObservedObject private var launch = LaunchAtLoginManager.shared
+
+    private var launchBinding: Binding<Bool> {
+        Binding(get: { launch.isEnabled }, set: { launch.setEnabled($0) })
+    }
 
     var body: some View {
         VStack(spacing: 20) {
@@ -40,6 +45,26 @@ struct OnboardingView: View {
                 .padding(6)
             }
 
+            GroupBox {
+                HStack(spacing: 12) {
+                    Image(systemName: "power")
+                        .font(.title2)
+                        .foregroundStyle(.tint)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Launch at Login")
+                            .font(.headline)
+                        Text("Start AntiSleep automatically when you log in.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Toggle("", isOn: launchBinding)
+                        .toggleStyle(.switch)
+                        .labelsHidden()
+                }
+                .padding(6)
+            }
+
             HStack(spacing: 12) {
                 Button("Grant Permissions") {
                     permissions.request()
@@ -54,7 +79,10 @@ struct OnboardingView: View {
             .padding(.top, 4)
         }
         .padding(28)
-        .frame(width: 460, height: 420)
-        .onAppear { permissions.refresh() }
+        .frame(width: 460, height: 520)
+        .onAppear {
+            permissions.refresh()
+            launch.refresh()
+        }
     }
 }

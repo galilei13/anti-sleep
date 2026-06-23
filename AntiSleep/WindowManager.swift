@@ -25,14 +25,14 @@ final class WindowManager: NSObject, ObservableObject {
     func showOnboarding() {
         present(&onboardingWindow,
                 title: "Welcome to AntiSleep",
-                size: NSSize(width: 460, height: 420),
+                size: NSSize(width: 460, height: 520),
                 content: OnboardingView())
     }
 
     func showSettings() {
         present(&settingsWindow,
                 title: "AntiSleep Settings",
-                size: NSSize(width: 460, height: 360),
+                size: NSSize(width: 460, height: 420),
                 content: SettingsView())
     }
 

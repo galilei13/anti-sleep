@@ -15,6 +15,7 @@ lives entirely in the status bar with a physical-light-switch toggle.
 - **Core logic** via `IOPMAssertionCreateWithName` (`PreventUserIdleSystemSleep`).
 - **First-launch onboarding** requesting notification permission.
 - **Settings window** showing permission status with a re-authorize button.
+- **Launch at Login** via `SMAppService`, toggleable from Settings and Onboarding.
 
 ## Build & Run
 

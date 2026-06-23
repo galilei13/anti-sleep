@@ -4,6 +4,11 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject private var permissions = PermissionsManager.shared
     @ObservedObject private var sleep = SleepManager.shared
+    @ObservedObject private var launch = LaunchAtLoginManager.shared
+
+    private var launchBinding: Binding<Bool> {
+        Binding(get: { launch.isEnabled }, set: { launch.setEnabled($0) })
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -14,6 +19,12 @@ struct SettingsView: View {
                 row(label: "Anti-Sleep",
                     value: sleep.isActive ? "Active" : "Inactive",
                     color: sleep.isActive ? .green : .secondary)
+            }
+
+            GroupBox("General") {
+                Toggle("Launch at Login", isOn: launchBinding)
+                    .toggleStyle(.switch)
+                    .padding(6)
             }
 
             GroupBox("Permissions") {
@@ -46,8 +57,11 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding(24)
-        .frame(width: 460, height: 360)
-        .onAppear { permissions.refresh() }
+        .frame(width: 460, height: 420)
+        .onAppear {
+            permissions.refresh()
+            launch.refresh()
+        }
     }
 
     private var statusColor: Color {
@@ -60,7 +74,7 @@ struct SettingsView: View {
     }
 
     private var appVersion: String {
-        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.1"
         return "v\(v)"
     }
 
