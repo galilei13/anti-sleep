@@ -53,18 +53,21 @@ final class WindowManager: NSObject, ObservableObject {
         )
         window.title = title
         window.isReleasedWhenClosed = false
-        // Borderless premium look: transparent window so the glass shows through.
+        // Warm, borderless look: transparent titlebar over a cream content fill.
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .hidden
         window.isMovableByWindowBackground = true
-        window.isOpaque = false
-        window.backgroundColor = .clear
+        window.backgroundColor = NSColor(name: nil) {
+            $0.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+                ? NSColor(srgbRed: 0x21/255, green: 0x20/255, blue: 0x1B/255, alpha: 1)
+                : NSColor(srgbRed: 0xF4/255, green: 0xF1/255, blue: 0xEA/255, alpha: 1)
+        }
         window.standardWindowButton(.miniaturizeButton)?.isHidden = true
         window.standardWindowButton(.zoomButton)?.isHidden = true
         window.center()
 
         let host = NSHostingView(rootView: ZStack {
-            GlassWindowBackground()
+            ThemeWindowBackground()
             content
         })
         window.contentView = host

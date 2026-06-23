@@ -14,9 +14,10 @@ struct MenuContentView: View {
             HStack {
                 Image(systemName: sleep.isActive ? "cup.and.saucer.fill" : "moon.zzz")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(sleep.isActive ? .green : .secondary)
+                    .foregroundStyle(sleep.isActive ? Theme.accent : Theme.textSecondary)
                 Text("AntiSleep")
-                    .font(.headline)
+                    .font(Theme.serif(17))
+                    .foregroundStyle(Theme.textPrimary)
                 Spacer()
             }
 
@@ -27,7 +28,7 @@ struct MenuContentView: View {
 
                 Text(sleep.isActive ? "Your Mac will stay awake." : "Your Mac can sleep normally.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(1)
                     .fixedSize(horizontal: false, vertical: true)
@@ -35,7 +36,7 @@ struct MenuContentView: View {
                     .animation(nil, value: sleep.isActive)
             }
             .frame(maxWidth: .infinity)
-            .glassCard()
+            .themeCard()
 
             HStack {
                 Button {
@@ -51,10 +52,11 @@ struct MenuContentView: View {
                 }
             }
             .buttonStyle(.borderless)
+            .tint(Theme.accent)
         }
         .padding(18)
         .frame(width: 260, height: 250)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: Glass.cardRadius, style: .continuous))
+        .background(Theme.bgPrimary)
         .fixedSize()
     }
 }

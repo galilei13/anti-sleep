@@ -13,17 +13,20 @@ struct SettingsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Settings")
-                .font(.title2.bold())
+                .font(Theme.serif(26, weight: .bold))
+                .foregroundStyle(Theme.textPrimary)
 
             card(title: "Status") {
                 row(label: "Anti-Sleep",
                     value: sleep.isActive ? "Active" : "Inactive",
-                    color: sleep.isActive ? .green : .secondary)
+                    color: sleep.isActive ? Theme.success : Theme.textSecondary)
             }
 
             card(title: "General") {
                 Toggle("Launch at Login", isOn: launchBinding)
                     .toggleStyle(.switch)
+                    .tint(Theme.accent)
+                    .foregroundStyle(Theme.textPrimary)
             }
 
             card(title: "Permissions") {
@@ -37,13 +40,15 @@ struct SettingsView: View {
                             permissions.request()
                             permissions.refresh()
                         }
+                        .buttonStyle(.themePrimary)
                         if permissions.notificationStatus == .denied {
                             Button("Open System Settings") {
                                 openNotificationSettings()
                             }
+                            .buttonStyle(.bordered)
+                            .tint(Theme.accent)
                         }
                     }
-                    .buttonStyle(.bordered)
                     .padding(.top, 4)
                 }
             }
@@ -52,48 +57,50 @@ struct SettingsView: View {
 
             Text("AntiSleep \(appVersion)")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.textMuted)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding(24)
         .frame(width: 460, height: 420)
+        .background(Theme.bgPrimary)
         .onAppear {
             permissions.refresh()
             launch.refresh()
         }
     }
 
-    /// A titled glass section card.
+    /// A titled warm section card.
     private func card<Content: View>(title: String,
                                      @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.caption.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.textMuted)
                 .textCase(.uppercase)
             content()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .glassCard()
+        .themeCard()
     }
 
     private var statusColor: Color {
         switch permissions.notificationStatus {
-        case .authorized: return .green
-        case .denied: return .red
-        case .provisional: return .orange
-        case .notDetermined: return .secondary
+        case .authorized: return Theme.success
+        case .denied: return Theme.error
+        case .provisional: return Theme.warning
+        case .notDetermined: return Theme.textMuted
         }
     }
 
     private var appVersion: String {
-        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2"
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.3"
         return "v\(v)"
     }
 
     private func row(label: String, value: String, color: Color) -> some View {
         HStack {
             Text(label)
+                .foregroundStyle(Theme.textPrimary)
             Spacer()
             Text(value)
                 .font(.callout.bold())
