@@ -28,6 +28,10 @@ struct MenuContentView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(height: 20)
+                .animation(nil, value: sleep.isActive)
 
             Divider()
 
@@ -47,6 +51,7 @@ struct MenuContentView: View {
             .buttonStyle(.borderless)
         }
         .padding(18)
-        .frame(width: 260)
+        .frame(width: 260, height: 230)
+        .fixedSize()
     }
 }
