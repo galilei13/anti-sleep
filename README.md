@@ -1,52 +1,71 @@
-# AntiSleep
+<div align="center">
 
-A lightweight macOS menu bar app that keeps your Mac awake. No main window — it
-lives entirely in the status bar with a physical-light-switch toggle.
+# ☕ AntiSleep
+
+**A warm, Claude-inspired menu bar app that keeps your Mac awake.**
+
+No main window. No dock icon. Just a quiet light switch in your status bar.
+
+</div>
+
+---
+
+## Overview
+
+AntiSleep is a lightweight macOS utility that prevents your Mac from going to
+sleep while you need it awake — downloads, presentations, long builds, reading.
+It lives entirely in the menu bar with a tactile light-switch toggle and a warm,
+Claude-inspired theme (cream palette, serif headings, terracotta accent).
+
+## Features
+
+- **🔌 Launch at Login** — opt in via `SMAppService`; AntiSleep is ready the
+  moment you log in, toggleable from Settings and Onboarding.
+- **🪶 No-Jitter UI** — the menu bar popover stays rock-steady when toggling
+  ON/OFF; no flicker, no resize jump, no layout shift.
+- **🛡️ Safe Assertions** — wake is held through the official
+  `IOPMAssertionCreateWithName` API (`PreventUserIdleSystemSleep`) and always
+  released cleanly, so sleep is never blocked longer than intended.
+- **🌗 Warm Claude-inspired theme** — adaptive light/dark with a cozy warm-dark
+  mode, soft corners, and a template menu bar icon.
+- **👋 First-launch onboarding** with a clear notification-permission request.
+- **⚙️ Settings window** showing live permission status and a re-authorize button.
+
+## Installation
+
+1. Download **`AntiSleep.dmg`** from the
+   [latest release](https://github.com/galilei13/dont-sleep-project/releases/latest).
+2. Open the DMG and **drag `AntiSleep.app` into `Applications`**.
+3. Launch AntiSleep. Look for the light-switch icon in your menu bar.
+
+> The app is unsigned. On first launch, right-click the app and choose **Open**
+> (or allow it under **System Settings → Privacy & Security**).
 
 ## Requirements
 
 - macOS 13.0+
-- Xcode 15+ (built and verified with Xcode 26.5)
+- Xcode 15+ (to build from source)
 
-## Features
-
-- **Menu bar only** (`LSUIElement`) — light/dark adaptive template icon.
-- **Light-switch toggle** to flip Anti-Sleep ON/OFF.
-- **Core logic** via `IOPMAssertionCreateWithName` (`PreventUserIdleSystemSleep`).
-- **First-launch onboarding** requesting notification permission.
-- **Settings window** showing permission status with a re-authorize button.
-- **Launch at Login** via `SMAppService`, toggleable from Settings and Onboarding.
-- **Warm Claude-inspired theme** — cream palette, serif headings, terracotta
-  accent, soft corners; light/dark adaptive with a warm-dark mode.
-
-## Build & Run
+## Build from Source
 
 ```sh
 make build     # compile Release
 make run       # build and launch
-open AntiSleep.xcodeproj   # or just open in Xcode
+make dmg       # package build/AntiSleep.dmg
 ```
 
-## Package a .dmg
+`make dmg` copies the built `.app` and runs `scripts/make_dmg.sh`, producing a
+compressed disk image with a drag-to-`/Applications` symlink.
 
-```sh
-make dmg       # outputs build/AntiSleep.dmg
-```
-
-The DMG step copies the built `.app` and runs `scripts/make_dmg.sh`, which
-creates a compressed image with a drag-to-`/Applications` symlink.
-
-## Project layout
+## Project Layout
 
 ```
-AntiSleep.xcodeproj/        Xcode project (objectVersion 77, synchronized group)
+AntiSleep.xcodeproj/        Xcode project
 AntiSleep/                  Swift sources, Info.plist, entitlements, assets
 scripts/make_dmg.sh         hdiutil-based DMG packaging
 Makefile                    build / run / dmg / clean
 ```
 
-## Distribution notes
+## License
 
-The project builds unsigned for local development (`CODE_SIGNING_ALLOWED=NO`
-in the Makefile). For public distribution, set a Developer ID signing identity
-and notarize the app before running `make dmg`.
+Released under the [MIT License](LICENSE).

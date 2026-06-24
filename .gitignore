@@ -16,6 +16,17 @@ xcuserdata/
 .swiftpm/
 .build/
 
+# Xcode misc / derived
+*.xcuserstate
+*.xccheckout
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.dSYM/
+*.dSYM.zip
+
+# Local tooling state
+.claude/
+
 # Misc
 *.moved-aside
 *.hmap
