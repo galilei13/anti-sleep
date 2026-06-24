@@ -69,3 +69,17 @@ Makefile                    build / run / dmg / clean
 ## License
 
 Released under the [MIT License](LICENSE).
+
+## 💛 Support & Donation
+
+If this app helps keep your Mac awake, consider supporting the project! Every
+contribution helps fund continued development and is genuinely appreciated.
+
+| Network | Address |
+| --- | --- |
+| **TRON** (TRC-20) | `TWmXwZ8dDVrJ8uH6Q5C3TTdsW2G5iWjg5E` |
+| **Ethereum** (ERC-20) | `0x75D68d3e7c151Fe38B3E17abEC7F57948FC2D4AF` |
+| **Polygon** | `0x75D68d3e7c151Fe38B3E17abEC7F57948FC2D4AF` |
+
+> Please double-check the network before sending — crypto transfers are
+> irreversible. Thank you for your support! 🙏
