@@ -16,16 +16,19 @@ final class SleepManager: ObservableObject {
 
     func toggle() { isActive ? stop() : start() }
 
-    /// Creates a `PreventUserIdleSystemSleep` assertion via `IOPMAssertionCreateWithName`.
+    /// Creates a `PreventUserIdleDisplaySleep` assertion via `IOPMAssertionCreateWithName`.
+    /// This mimics video-playback apps (QuickTime/VLC): the display stays fully awake
+    /// at brightness and never dims, which also implies the system stays awake.
     func start() {
         guard !isActive else { return }
         var id = IOPMAssertionID(0)
         let result = IOPMAssertionCreateWithName(
-            kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
+            kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString,
             IOPMAssertionLevel(kIOPMAssertionLevelOn),
             reason,
             &id
         )
+        print("[AntiSleep] Assertion Created: \(result)")
         guard result == kIOReturnSuccess else { return }
         assertionID = id
         isActive = true
@@ -33,7 +36,8 @@ final class SleepManager: ObservableObject {
 
     func stop() {
         guard isActive else { return }
-        IOPMAssertionRelease(assertionID)
+        let result = IOPMAssertionRelease(assertionID)
+        print("[AntiSleep] Assertion Released: \(result)")
         assertionID = IOPMAssertionID(0)
         isActive = false
     }
