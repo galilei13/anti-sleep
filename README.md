@@ -33,6 +33,8 @@ Claude-inspired theme (cream palette, serif headings, terracotta accent).
 
 ## Installation
 
+**Option A — DMG (recommended)**
+
 1. Download **`AntiSleep.dmg`** from the
    [latest release](https://github.com/galilei13/dont-sleep-project/releases/latest).
 2. Open the DMG and **drag `AntiSleep.app` into `Applications`**.
@@ -40,6 +42,13 @@ Claude-inspired theme (cream palette, serif headings, terracotta accent).
 
 > The app is unsigned. On first launch, right-click the app and choose **Open**
 > (or allow it under **System Settings → Privacy & Security**).
+
+**Option B — Homebrew (personal tap)**
+
+```sh
+brew tap galilei13/antisleep https://github.com/galilei13/dont-sleep-project
+brew install --cask antisleep
+```
 
 ## Requirements
 

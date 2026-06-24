@@ -11,7 +11,7 @@ EXPORT_DIR   := $(BUILD_DIR)/export
 APP_PATH     := $(EXPORT_DIR)/$(APP_NAME).app
 DMG_PATH     := $(BUILD_DIR)/$(APP_NAME).dmg
 
-.PHONY: all build run archive export dmg clean
+.PHONY: all build run archive export dmg brew-cask clean
 
 all: build
 
@@ -38,6 +38,14 @@ export: build
 ## Bundle the compiled .app into a distributable .dmg.
 dmg: export
 	./scripts/make_dmg.sh "$(APP_PATH)" "$(DMG_PATH)" "$(APP_NAME)"
+
+## Generate a Homebrew cask formula with the real SHA256 of the current DMG.
+## Run after `make dmg`. Writes the result to Casks/antisleep.generated.rb.
+brew-cask: dmg
+	@SHA=$$(shasum -a 256 "$(DMG_PATH)" | awk '{print $$1}') && \
+	 sed "s/<SHA256_PLACEHOLDER>/$$SHA/" Casks/antisleep.rb > Casks/antisleep.generated.rb
+	@echo "==> Cask formula written to Casks/antisleep.generated.rb"
+	@echo "    Test locally: brew install --cask ./Casks/antisleep.generated.rb"
 
 clean:
 	rm -rf $(BUILD_DIR)
